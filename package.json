@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "tsc server.ts -m node16 -t es2021",
-    "start": "npm run build -s && node ."
+    "start": "tsc && node ./dist"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,10 @@
   },
   "homepage": "https://github.com/indigotech/onboard-ronaldo-scarpate-backend#readme",
   "dependencies": {
+    "@apollo/server": "4.3.0",
     "graphql": "16.6.0"
+  },
+  "devDependencies": {
+    "typescript": "4.9.4"
   }
 }
