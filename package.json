@@ -1,0 +1,24 @@
+{
+  "name": "onboard-ronaldo-scarpate-backend",
+  "version": "1.0.0",
+  "description": "- GraphQL, Apollo Server, TS, NodeJS and TypeORM implementations with database\r - Possible CRUD operations with some technologies:",
+  "main": "server.js",
+  "scripts": {
+    "build": "tsc server.ts -m node16 -t es2021",
+    "start": "npm run build -s && node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/indigotech/onboard-ronaldo-scarpate-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/indigotech/onboard-ronaldo-scarpate-backend/issues"
+  },
+  "homepage": "https://github.com/indigotech/onboard-ronaldo-scarpate-backend#readme",
+  "dependencies": {
+    "graphql": "16.6.0"
+  }
+}
