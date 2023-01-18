@@ -33,10 +33,34 @@ module.exports = {
         allowDestructuring: true
       }
     ],
-    "@typescript-eslint/no-use-before-define": "off"
+    "@typescript-eslint/no-use-before-define": "off",
+
+
+    "semi": "off",
+    "@typescript-eslint/semi": "error",
+
+
+    /* "no-restricted-syntax": [
+      "error",
+      // ban all enums
+      {
+        "selector": "TSEnumDeclaration",
+        "message": "My reason for not using any enums at all"
+      },
+      // ban just const enums
+      {
+        "selector": "TSEnumDeclaration[const=true]",
+        "message": "My reason for not using const enums"
+      },
+      // ban just non-const enums
+      {
+        "selector": "TSEnumDeclaration:not([const=true])",
+        "message": "My reason for not using non-const enums"
+      }
+    ] */
   },
 
-  ignorePatterns: ["node_modules", "dist"],
+  ignorePatterns: ["node_modules", "dist", ".eslintrc.js"],
 
   plugins: ["@typescript-eslint"],
   extends: [
