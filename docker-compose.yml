@@ -4,7 +4,7 @@ name: two-databases
 services:
   localdb:
     image: postgres:15.1-alpine
-    container_name: dbase-pg
+    container_name: database-pg
     ports:
       - 5435:5432
     volumes:
@@ -16,7 +16,7 @@ services:
 
   auxiliardb:
     image: postgres:15.1-alpine
-    container_name: dbase-pg-tests
+    container_name: database-pg-tests
     ports:
       - 5436:5432
     volumes:
