@@ -2,7 +2,7 @@
   "name": "onboard-ronaldo-scarpate-backend",
   "version": "1.0.0",
   "description": "- GraphQL, Apollo Server, TS, NodeJS and TypeORM implementations with database\r - Possible CRUD operations with some technologies:",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "build": "tsc server.ts -m node16 -t es2021",
     "start": "tsc && node ./dist"
@@ -23,6 +23,12 @@
     "graphql": "16.6.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.48.2",
+    "@typescript-eslint/parser": "5.48.2",
+    "eslint": "8.32.0",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "prettier": "2.8.3",
     "typescript": "4.9.4"
   }
 }
