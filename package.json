@@ -4,8 +4,9 @@
   "description": "- GraphQL, Apollo Server, TS, NodeJS and TypeORM implementations with database\r - Possible CRUD operations with some technologies:",
   "main": "index.js",
   "scripts": {
-    "build": "tsc server.ts -m node16 -t es2021",
-    "start": "tsc && node ./dist"
+    "build": "npx tsc ./index.ts -m node16 -t es2021 --outdir ./temp",
+    "dev": "nodemon --exec ts-node src/index.ts -e ts,graphql",
+    "start": "npx tsc && npx ts-node ./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,10 +24,12 @@
     "dotenv": "16.0.3",
     "graphql": "16.6.0",
     "pg": "8.8.0",
+    "type-graphql": "2.0.0-beta.1",
     "typedi": "0.10.0",
     "typeorm": "0.3.11"
   },
   "devDependencies": {
+    "@types/node": "18.11.18",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
     "eslint": "8.32.0",
@@ -35,5 +38,8 @@
     "prettier": "2.8.3",
     "tsconfig-paths": "4.1.2",
     "typescript": "4.9.4"
+  },
+  "peerDependencies": {
+    "class-validator": "0.13.2"
   }
 }
