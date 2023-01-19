@@ -4,7 +4,7 @@
 |:--:|
 
 ### **Which tools/technologies have used for it?**
-_GraphQL, Apollo Server, TypeScript, NodeJS, TypeORM, Table Plus, PostgresQL, VS Code, Table Plus, GitHub_
+_GraphQL, Apollo Server, TypeScript, NodeJS, TypeORM, Table Plus, PostgresQL, VS Code, GitHub_
 
 ---
 ---
