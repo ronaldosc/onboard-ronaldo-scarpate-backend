@@ -2,25 +2,26 @@
   "compilerOptions": {
     "target": "ES2021",
     "module": "CommonJS",
-    "lib": ["ES2021"],
+    "lib": ["ES2021", "DOM"],
     "rootDir": "./src",
     "moduleResolution": "Node",
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "@api/*": ["api/*"],
+      "@api": ["api/*", "api/index"],
       "@core/*": ["core/*"],
       "@db/*": ["db/*"],
       "@domain/*": ["domain/*"],
       "@entities/*": ["db/entities/*"]
     },
+    "types": ["reflect-metadata", "node"],
     "allowJs": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true
+    "strict": true
+    // "skipLibCheck": true
   },
   "ts-node": { "require": ["tsconfig-paths/register"] },
   "include": ["src/**/*"],

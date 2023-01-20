@@ -12,7 +12,7 @@ export class CreateUserUserCase {
     const birthFormated = new Date(birthdate);
 
     if (user) {
-      throw new Error(`Usuário com e-mail ${email} já possui cadastro.`);
+      throw new Error(`Usuário com e-mail '${email}' já possui cadastro.`);
     }
     if (!birthFormated.getTime()) {
       throw new Error(`A data de nascimento '${birthdate}' não é válida.`);
