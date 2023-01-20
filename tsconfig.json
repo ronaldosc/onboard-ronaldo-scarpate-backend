@@ -8,9 +8,11 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "@core/env-conf": ["core/env.conf"],
-      "@db/*":["db/*"],
-      "@entities/*": ["db/entities/*"],
+      "@api/*": ["api/*"],
+      "@core/*": ["core/*"],
+      "@db/*": ["db/*"],
+      "@domain/*": ["domain/*"],
+      "@entities/*": ["db/entities/*"]
     },
     "allowJs": true,
     "experimentalDecorators": true,
@@ -20,8 +22,7 @@
     "strict": true,
     "skipLibCheck": true
   },
-
+  "ts-node": { "require": ["tsconfig-paths/register"] },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"],
-  "ts-node": { "require": ["tsconfig-paths/register"] }
+  "exclude": ["node_modules", "dist"]
 }
