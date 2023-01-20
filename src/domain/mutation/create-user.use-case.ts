@@ -6,8 +6,8 @@ import { Service } from 'typedi';
 export class CreateUserUserCase {
   constructor(private readonly repository: UserDataSource) {}
 
-  async exec(data: CreateUserInputModel): Promise<CreateUserResponseModel> {
-    const { name, email, birthdate, password } = data;
+  async exec(input: CreateUserInputModel): Promise<CreateUserResponseModel> {
+    const { name, email, birthdate, password } = input;
     const user = await this.repository.findOneByEmail(email);
     const birthFormated = new Date(birthdate);
 

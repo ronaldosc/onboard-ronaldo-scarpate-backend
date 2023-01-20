@@ -18,9 +18,9 @@ class UserResolver {
   @Mutation(() => UserType)
   createUser(
     @Arg('data')
-    data: CreateUserInput,
+    input: CreateUserInput,
   ): Promise<CreateUserResponseModel> {
-    return this.createUserUseCase.exec(data);
+    return this.createUserUseCase.exec(input);
   }
 }
 
