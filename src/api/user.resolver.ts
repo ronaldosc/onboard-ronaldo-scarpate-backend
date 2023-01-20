@@ -7,7 +7,7 @@ import { CreateUserInput } from './user.input';
 import { UserType } from './user.type';
 
 @Service()
-@Resolver(of => User)
+@Resolver((of) => User)
 export class UserResolver {
   constructor(private readonly createUserUseCase: CreateUserUserCase) {}
 
@@ -24,4 +24,3 @@ export class UserResolver {
     return this.createUserUseCase.exec(input);
   }
 }
-

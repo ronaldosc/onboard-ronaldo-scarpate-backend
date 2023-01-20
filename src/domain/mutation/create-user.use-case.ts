@@ -1,3 +1,4 @@
+import { birthValidator, passValidator } from '@core/validators';
 import { UserDataSource } from '@db/source';
 import { CreateUserInputModel, CreateUserResponseModel } from '@domain/model';
 import { Service } from 'typedi';
@@ -16,6 +17,14 @@ export class CreateUserUserCase {
     }
     if (!birthFormated.getTime()) {
       throw new Error(`A data de nascimento '${birthdate}' não é válida.`);
+    }
+
+    if (!birthValidator(birthdate)) {
+      throw new Error(`Para se cadastrar é necessário ter no mínimo 15 (quinze) anos.`);
+    }
+
+    if (!passValidator(password)) {
+      throw new Error(`A senha informada não é válida.`);
     }
 
     return this.repository.saveUser({
