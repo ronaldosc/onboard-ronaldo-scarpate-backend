@@ -12,7 +12,7 @@ export class UserDataSource {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  saveUser(user: CreateUserInputModel) {
+  saveUser(user: CreateUserInputModel & { password: string; salt: string }) {
     return this.userRepository.save({ ...user });
   }
 }

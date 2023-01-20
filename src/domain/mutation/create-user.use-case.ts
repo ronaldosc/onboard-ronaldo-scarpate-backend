@@ -1,3 +1,4 @@
+import { HashService } from '@core/crypto';
 import { birthValidator, passValidator } from '@core/validators';
 import { UserDataSource } from '@db/source';
 import { CreateUserInputModel, CreateUserResponseModel } from '@domain/model';
@@ -5,7 +6,9 @@ import { Service } from 'typedi';
 
 @Service()
 export class CreateUserUserCase {
-  constructor(private readonly repository: UserDataSource) {}
+  private readonly salt = this.hashService.genSalt();
+
+  constructor(private readonly repository: UserDataSource, private readonly hashService: HashService) {}
 
   async exec(input: CreateUserInputModel): Promise<CreateUserResponseModel> {
     const { name, email, birthdate, password } = input;
@@ -27,11 +30,14 @@ export class CreateUserUserCase {
       throw new Error(`A senha informada não é válida.`);
     }
 
+    const hashedPass = this.hashService.genPassSalted(password, this.salt);
+
     return this.repository.saveUser({
       name,
       birthdate: birthFormated.toJSON(),
       email,
-      password,
+      password: hashedPass,
+      salt: this.salt
     });
   }
 }
