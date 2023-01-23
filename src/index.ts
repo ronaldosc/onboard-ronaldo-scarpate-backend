@@ -1,4 +1,4 @@
-import { resolvers } from '@api/resolvers';
+import { resolvers } from '@api';
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { EnvConf, HOST, PORT } from '@core/env-conf';
@@ -13,15 +13,16 @@ const host = Container.get(HOST);
 
 (async function () {
   const schema = await buildSchema({
-    resolvers, 
+    validate: false /* {forbidUnknownValues: false, validationError: {target:true}} */,
+    resolvers,
     container: Container,
   });
 
   const apolloServer = new ApolloServer({
-   schema,
-   formatError: (error: GraphQLFormattedError) => {
+    schema,
+    formatError: (error: GraphQLFormattedError) => {
       return error;
-    } 
+    },
   });
 
   const { url } = await startStandaloneServer(apolloServer, {

@@ -12,4 +12,6 @@ export class User {
   birthdate!: string;
   @Column({ select: false })
   password!: string;
+  @Column({ unique: true })
+  salt!: string;
 }
