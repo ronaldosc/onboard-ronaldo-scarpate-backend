@@ -14,10 +14,15 @@ export const birthValidator = (birthdate: string | Date): boolean => {
       return differenceInYears(this.today, this.isBefore);
     },
   };
+
+  if (!dates.isBefore) {
+    throw new Error(`A data de nascimento '${birthdate}' não é válida.`);
+  }
+
   if (dates.resultInYears >= 15) {
     return true;
   } else if (dates.resultInYears < 0) {
-    throw new Error(`A data de nascimento '${birthdate}' é posterior a data atual.`);
+    throw new Error(`A data informada '${birthdate}' é posterior a data atual.`);
   } else {
     return false;
   }
