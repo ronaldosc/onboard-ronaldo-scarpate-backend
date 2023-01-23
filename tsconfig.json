@@ -14,7 +14,7 @@
       "@domain/*": ["domain/*"],
       "@entities/*": ["db/entities/*"]
     },
-    "types": ["reflect-metadata", "node"],
+    "types": ["reflect-metadata", "node", "mocha", "chai"],
     "allowJs": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
