@@ -1,4 +1,7 @@
 
+//  verificar    usuário   user use-case   
+// testar integraçao no caso com o banco de dados
+//   resquester's with axios
 
 /*
 describe('Array', function(){

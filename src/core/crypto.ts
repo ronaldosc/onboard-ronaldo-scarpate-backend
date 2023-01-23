@@ -10,7 +10,7 @@ export class CryptoService {
   ) {}
 
   generateSalt(): string {
-    return crypto.randomBytes(this.keyLength | 0).toString('hex');
+    return crypto.randomBytes(this.keyLength).toString('hex');
   }
 
   generateSaltedPass(value: string, salt: string): string {
