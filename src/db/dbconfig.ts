@@ -1,10 +1,7 @@
-import { DATABASE_URL, EnvConf } from '@core/env-conf';
+import { DATABASE_URL } from '@core/env-conf';
 import { User } from '@entities/user';
 import { Container } from 'typedi';
 import { DataSource } from 'typeorm';
-
-EnvConf.config();
-const databaseURL = Container.get(DATABASE_URL);
 
 export const dataORM = new DataSource({
   type: 'postgres',
@@ -14,7 +11,7 @@ export const dataORM = new DataSource({
 
 export async function dbConfig() {
   dataORM.setOptions({
-    url: databaseURL,
+    url: Container.get(DATABASE_URL),
   });
   await dataORM.initialize();
 }

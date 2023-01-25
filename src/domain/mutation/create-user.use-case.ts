@@ -5,10 +5,9 @@ import { CreateUserInputModel, CreateUserResponseModel } from '@domain/model';
 import { Service } from 'typedi';
 
 @Service()
-export class CreateUserUserCase {
-  private readonly salt = this.CryptoService.generateSalt() ?? 'defaultSalt';
-
-  constructor(private readonly repository: UserDataSource, private readonly CryptoService: CryptoService) {}
+export class CreateUserUseCase {
+  private readonly salt = this.cryptoService.generateSalt() ?? 'defaultSalt';
+  constructor(private readonly repository: UserDataSource, private readonly cryptoService: CryptoService) {}
 
   async exec(input: CreateUserInputModel): Promise<CreateUserResponseModel> {
     const { name, email, birthdate, password } = input;
@@ -26,7 +25,7 @@ export class CreateUserUserCase {
       throw new Error(`A senha informada não é válida.`);
     }
 
-    const hashedPass = this.CryptoService.generateSaltedPass(password, this.salt);
+    const hashedPass = this.cryptoService.generateSaltedPass(password, this.salt);
 
     return this.repository.saveUser({
       name,

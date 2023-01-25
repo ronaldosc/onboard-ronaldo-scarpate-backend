@@ -8,8 +8,9 @@ export const CRYPTO_KEY_LENGTH = new Token<number>('CRYPTO_KEY_LENGTH');
 export const CRYPTO_SECRET = new Token<string>('CRYPTO_SECRET');
 
 export namespace EnvConf {
-  export function config() {
-    require('dotenv').config();
+  export function config(test?: boolean) {
+    require('dotenv').config({ path: test ? '.env.test' : '.env' });
+
     Container.set(HOST, env.HOST);
     Container.set(PORT, +env.PORT!);
     Container.set(DATABASE_URL, env.DATABASE_URL);

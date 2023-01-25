@@ -1,5 +1,5 @@
 import { CreateUserResponseModel } from '@domain/model';
-import { CreateUserUserCase } from '@domain/mutation';
+import { CreateUserUseCase } from '@domain/mutation';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
 import { CreateUserInput } from './user.input';
@@ -8,7 +8,7 @@ import { UserType } from './user.type';
 @Service()
 @Resolver()
 export class UserResolver {
-  constructor(private readonly createUserUseCase: CreateUserUserCase) {}
+  constructor(private readonly createUserUseCase: CreateUserUseCase) {}
 
   @Mutation(() => UserType)
   createUser(
