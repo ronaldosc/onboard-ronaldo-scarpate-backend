@@ -1,4 +1,4 @@
-import { UserModel } from '@domain/model';
+import { UserModel } from '@domain';
 import { Field, Int, ObjectType } from 'type-graphql';
 
 @ObjectType()

@@ -1,12 +1,11 @@
-import { CryptoService } from '@core/crypto';
-import { birthValidator, passValidator } from '@core/validators';
+import { CryptoService, birthValidator, passValidator } from '@core';
 import { UserDataSource } from '@db/source';
 import { CreateUserInputModel, CreateUserResponseModel } from '@domain/model';
 import { Service } from 'typedi';
 
 @Service()
 export class CreateUserUseCase {
-  private readonly salt = this.cryptoService.generateSalt() ?? 'defaultSalt';
+  protected readonly salt: string = this.cryptoService.generateSalt() ?? 'defaultSalt';
   constructor(private readonly repository: UserDataSource, private readonly cryptoService: CryptoService) {}
 
   async exec(input: CreateUserInputModel): Promise<CreateUserResponseModel> {

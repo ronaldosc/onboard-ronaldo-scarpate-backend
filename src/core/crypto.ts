@@ -5,12 +5,12 @@ import { CRYPTO_KEY_LENGTH, CRYPTO_SECRET } from './env-conf';
 @Service()
 export class CryptoService {
   constructor(
-    @Inject(CRYPTO_SECRET) private defaultSalt: string,
-    @Inject(CRYPTO_KEY_LENGTH) private keyLength: number,
+    @Inject(CRYPTO_SECRET) private readonly defaultSalt: string,
+    @Inject(CRYPTO_KEY_LENGTH) private readonly keyLength: number
   ) {}
 
   generateSalt(): string {
-    return crypto.randomBytes(this.keyLength).toString('hex');
+    return crypto.randomBytes(+this.keyLength).toString('hex');
   }
 
   generateSaltedPass(value: string, salt: string): string {

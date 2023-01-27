@@ -1,5 +1,4 @@
-import { CreateUserResponseModel } from '@domain/model';
-import { CreateUserUseCase } from '@domain/mutation';
+import { CreateUserResponseModel, CreateUserUseCase } from '@domain';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { Service } from 'typedi';
 import { CreateUserInput } from './user.input';
@@ -12,7 +11,7 @@ export class UserResolver {
 
   @Mutation(() => UserType)
   createUser(
-    @Arg('data')
+    @Arg('input')
     input: CreateUserInput,
   ): Promise<CreateUserResponseModel> {
     return this.createUserUseCase.exec(input);

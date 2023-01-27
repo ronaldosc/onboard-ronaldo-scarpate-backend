@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "npx ts-node ./src/index.ts --emit -r tsconfig-paths/register",
+    "check:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./",
     "dev": "nodemon --exec ts-node src/index.ts -e ts,graphql",
     "start": "npx tsc && npx ts-node ./dist/index.js",
-    "test": "mocha --timeout 10000",
-    "teste": "npx mocha -r ts-node/register -r tsconfig-paths/register --colors --delay src/index.ts --exit"
+    "test": "npx mocha -r ts-node/register -r tsconfig-paths/register --colors --delay src/index.ts --exit"
   },
   "repository": {
     "type": "git",
@@ -49,6 +49,6 @@
     "typescript": "4.9.4"
   },
   "peerDependencies": {
-    "class-validator": "0.14.0"
+    "class-validator": "0.13.2"
   }
 }

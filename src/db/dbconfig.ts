@@ -1,5 +1,5 @@
-import { DATABASE_URL } from '@core/env-conf';
-import { User } from '@entities/user';
+import { DATABASE_URL } from '@core';
+import { User } from '@entities';
 import { Container } from 'typedi';
 import { DataSource } from 'typeorm';
 

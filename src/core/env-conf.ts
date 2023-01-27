@@ -1,5 +1,5 @@
 import { env } from 'node:process';
-import { Container, Token } from 'typedi';
+import Container, { Token } from 'typedi';
 
 export const HOST = new Token<string>('HOST');
 export const PORT = new Token<number>('PORT');
