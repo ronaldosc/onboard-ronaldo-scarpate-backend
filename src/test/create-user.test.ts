@@ -22,7 +22,7 @@ describe('GraphQL -> Unit Test - Create user use-case', () => {
   let createUser: CreateUserUseCase;
   
   class CreateUserUseCaseTest extends CreateUserUseCase {
-    saltTest: string = this.salt
+    //////////////  saltTest: string = this.salt
     constructor() {
       super(repository, cryptoService);
     }
@@ -34,7 +34,7 @@ describe('GraphQL -> Unit Test - Create user use-case', () => {
   class UserDataSourceTest extends UserDataSource {
     // private readonly salt = new SaltTest().saltTest  
     override saveUser(user: CreateUserInputModel) {
-      saltTest = new CreateUserUseCaseTest().saltTest
+      ///////// saltTest = new CreateUserUseCaseTest().saltTest
 
       console.count("Salt criado:")
 

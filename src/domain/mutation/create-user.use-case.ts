@@ -5,11 +5,14 @@ import { Service } from 'typedi';
 
 @Service()
 export class CreateUserUseCase {
-  protected readonly salt: string = this.cryptoService.generateSalt() ?? 'defaultSalt';
-  constructor(private readonly repository: UserDataSource, private readonly cryptoService: CryptoService) {}
+  constructor(
+    private readonly repository: UserDataSource,
+    private readonly cryptoService: CryptoService
+  ) { }
 
   async exec(input: CreateUserInputModel): Promise<CreateUserResponseModel> {
     const { name, email, birthdate, password } = input;
+    const salt: string = this.cryptoService.generateSalt();
     const user = await this.repository.findOneByEmail(email);
 
     if (user) {
@@ -24,14 +27,14 @@ export class CreateUserUseCase {
       throw new Error(`A senha informada não é válida.`);
     }
 
-    const hashedPass = this.cryptoService.generateSaltedPass(password, this.salt);
+    const hashedPass = this.cryptoService.generateSaltedPass(password, salt);
 
     return this.repository.saveUser({
       name,
       birthdate: new Date(birthdate).toJSON(),
       email,
       password: hashedPass,
-      salt: this.salt,
+      salt,
     });
   }
 }
