@@ -7,14 +7,13 @@ import { before, describe } from 'mocha';
 import { Container, Service } from 'typedi';
 
 describe('GraphQL => Unit Test - Create User use-case', () => {
-  let cryptoService: CryptoService;
   let saltTest: string;
   let repository: UserDataSourceTest;
   let createUser: CreateUserUseCaseTest;
 
   class CreateUserUseCaseTest extends CreateUserUseCase {
     constructor() {
-      super(repository, cryptoService);
+      super((repository = Container.get(UserDataSourceTest)), Container.get(CryptoService));
     }
     saltTest: string = this.cryptoService.generateSalt();
 
@@ -39,13 +38,12 @@ describe('GraphQL => Unit Test - Create User use-case', () => {
   }
 
   before(() => {
-    repository = Container.get(UserDataSourceTest);
     createUser = new CreateUserUseCaseTest();
     saltTest = createUser.saltTest;
   });
 
   afterEach(async () => {
-    await Database.dataORM.getRepository(User).clear();
+    await Database.connection.getRepository(User).clear();
   });
 
   it('should create a new valid user', async () => {
@@ -80,7 +78,7 @@ describe('GraphQL => Unit Test - Create User use-case', () => {
       await createUser.exec(input);
       expect.fail('Should have thrown an error');
     } catch (err: any) {
-      expect(err.message).to.be.equal(`Usuário  e-mail '${input.email}' já possui cadastro.`);
+      expect(err.message).to.be.equal(`Usuário com e-mail '${input.email}' já possui cadastro.`);
     }
   });
 

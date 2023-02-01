@@ -11,12 +11,12 @@ const dataORMOpts: DataSource = new DataSource({
 });
 
 export class Database {
-  static readonly dataORM: DataSource = dataORMOpts;
+  static readonly connection: DataSource = dataORMOpts;
   protected db: DataSource;
   private url: string;
 
   constructor() {
-    this.db = Database.dataORM;
+    this.db = Database.connection;
     this.url = Container.get(DATABASE_URL);
   }
 

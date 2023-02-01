@@ -6,7 +6,7 @@ import { Database } from '../dbconfig';
 
 @Service()
 export class UserDataSource {
-  protected readonly userRepository: Repository<User> = Database.dataORM.getRepository(User);
+  protected readonly userRepository: Repository<User> = Database.connection.getRepository(User);
 
   findOneByEmail(email: string) {
     return this.userRepository.findOne({ where: { email } });

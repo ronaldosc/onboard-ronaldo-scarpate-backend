@@ -34,6 +34,9 @@ EnvConf.cfg(isTest);
     const { logTestFile, mochaOpts, filesForTesting, computedFailures } = test;
     filesForTesting();
     logTestFile(false);
-    mochaOpts.run((_fails) => computedFailures(_fails));
+    mochaOpts.run((_fails) => {
+      computedFailures(_fails);
+      mochaOpts.dispose();
+    });
   }
 })();
