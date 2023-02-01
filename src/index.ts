@@ -1,19 +1,14 @@
+import 'reflect-metadata';
 import { resolvers } from '@api';
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { EnvConf, HOST, PORT } from '@core';
-import { dbConfig } from '@db/dbconfig';
+import { Database } from '@db/dbconfig';
 import { GraphQLFormattedError } from 'graphql';
-import { run } from 'mocha';
-import "reflect-metadata";
 import { buildSchema } from 'type-graphql';
 import Container from 'typedi';
-import { configTestPaths } from './test';
-
-const isTest = process.argv[1].includes('mocha');
-EnvConf.config(isTest);
-const port = Container.get(PORT);
-const host = Container.get(HOST);
+import { isTest, logTestFile, mochaOpts } from '@test';
+EnvConf.cfg(isTest);
 
 (async function () {
   const schema = await buildSchema({
@@ -30,15 +25,13 @@ const host = Container.get(HOST);
   });
 
   const { url } = await startStandaloneServer(apolloServer, {
-    listen: { port: port, host: host },
+    listen: { port: Container.get(PORT), host: Container.get(HOST) },
   });
-
-  await dbConfig();
-
+  await new Database().init();
   console.log(` 🚀  Servidor Apollo pronto em ${url} `);
 
   if (isTest) {
-    await configTestPaths();
-    run();
+    logTestFile(true);
+    mochaOpts.run();
   }
 })();
