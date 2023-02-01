@@ -1,6 +1,6 @@
 import Mocha from 'mocha';
 import { log } from 'node:console';
-import { argv, cwd } from 'node:process';
+import { argv, cwd, exit } from 'node:process';
 
 export const isTest = argv[1].includes('mocha');
 
@@ -34,12 +34,13 @@ const filesForTesting: Function = () =>
   log('\n', `Arquivos a analisar(${Array(mochaOpts.files).length}): `, mochaOpts.files);
 
 const computedFailures: any = (fails: number) => {
-  process.exitCode = fails ? 1 : 0;
   console.log(
     '⎘  \x1b[4m',
     `All tests completed with${fails ? ` ${fails} failure${fails < 2 ? '' : 's'}` : 'out fail'}.`,
     '\x1b[0m  ⎗',
   );
+  process.exitCode = fails ? 1 : 0;
+  return exit();
 };
 
 export default { logTestFile, mochaOpts, filesForTesting, computedFailures };

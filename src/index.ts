@@ -8,6 +8,7 @@ import test, { isTest } from '@test';
 import { GraphQLFormattedError } from 'graphql';
 import { buildSchema } from 'type-graphql';
 import Container from 'typedi';
+import { exit } from 'process';
 EnvConf.cfg(isTest);
 
 (async function () {
@@ -34,9 +35,6 @@ EnvConf.cfg(isTest);
     const { logTestFile, mochaOpts, filesForTesting, computedFailures } = test;
     filesForTesting();
     logTestFile(false);
-    mochaOpts.run((_fails) => {
-      computedFailures(_fails);
-      mochaOpts.dispose();
-    });
+    mochaOpts.run((_fails) => computedFailures(_fails));
   }
 })();
