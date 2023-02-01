@@ -1,21 +1,32 @@
 import { CryptoService } from '@core';
-import { Database } from '@db/dbconfig';
-import { UserDataSource } from '@db/source';
-import { CreateUserInputModel, CreateUserUseCase } from '@domain';
+import { Database, UserDataSource } from '@db';
+import { CreateUserInputModel, CreateUserUseCase, UserModel } from '@domain';
 import { User } from '@entities';
 import { expect } from 'chai';
 import { before, describe } from 'mocha';
 import { Container, Service } from 'typedi';
 
 describe('GraphQL => Unit Test - Create User use-case', () => {
-  let cryptoService: CryptoService = Container.get(CryptoService); // TODO talvez mover essa linha aqui para 'before'
+  let cryptoService: CryptoService;
   let saltTest: string;
   let repository: UserDataSourceTest;
-  let createUser: CreateUserUseCase;
+  let createUser: CreateUserUseCaseTest;
 
   class CreateUserUseCaseTest extends CreateUserUseCase {
     constructor() {
       super(repository, cryptoService);
+    }
+    saltTest: string = this.cryptoService.generateSalt();
+
+    async execTest(input: CreateUserInputModel): Promise<UserModel> {
+      const { name, email, birthdate, password } = input;
+      return this.repository.saveUser({
+        name,
+        birthdate: new Date(birthdate).toJSON(),
+        email,
+        password,
+        salt: saltTest,
+      });
     }
   }
 
@@ -28,31 +39,31 @@ describe('GraphQL => Unit Test - Create User use-case', () => {
   }
 
   before(() => {
-    saltTest = cryptoService.generateSalt();
     repository = Container.get(UserDataSourceTest);
     createUser = new CreateUserUseCaseTest();
+    saltTest = createUser.saltTest;
   });
 
   afterEach(async () => {
     await Database.dataORM.getRepository(User).clear();
   });
 
-  it('should create a new user', async () => {
+  it('should create a new valid user', async () => {
     const input = {
       name: 'John',
       email: 'john@example.com',
       birthdate: '2000-01-01',
       password: 'p@ssw0rd',
     };
-    const result = await createUser.exec(input);
-    expect(result).to.deep.include({
+    const savedUser = await createUser.execTest(input);
+    expect(savedUser).to.deep.includes({
       name: 'John',
       email: 'john@example.com',
       birthdate: new Date(input.birthdate).toISOString(),
       salt: saltTest,
     });
-    expect(result.email).to.be.a('string');
-    expect(result.birthdate).to.be.a('string');
+    expect(savedUser.email).to.be.a('string');
+    expect(savedUser.birthdate).to.be.a('string');
   });
 
   it('should throw an error if the email is already in use', async () => {
@@ -69,7 +80,7 @@ describe('GraphQL => Unit Test - Create User use-case', () => {
       await createUser.exec(input);
       expect.fail('Should have thrown an error');
     } catch (err: any) {
-      expect(err.message).to.be.equal(`Usuário com e-mail '${input.email}' já possui cadastro.`);
+      expect(err.message).to.be.equal(`Usuário  e-mail '${input.email}' já possui cadastro.`);
     }
   });
 

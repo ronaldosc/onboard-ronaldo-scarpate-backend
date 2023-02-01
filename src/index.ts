@@ -3,11 +3,11 @@ import { resolvers } from '@api';
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { EnvConf, HOST, PORT } from '@core';
-import { Database } from '@db/dbconfig';
+import { Database } from '@db';
+import test, { isTest } from '@test';
 import { GraphQLFormattedError } from 'graphql';
 import { buildSchema } from 'type-graphql';
 import Container from 'typedi';
-import { isTest, logTestFile, mochaOpts } from '@test';
 EnvConf.cfg(isTest);
 
 (async function () {
@@ -31,7 +31,9 @@ EnvConf.cfg(isTest);
   console.log(` 🚀  Servidor Apollo pronto em ${url} `);
 
   if (isTest) {
-    logTestFile(true);
-    mochaOpts.run();
+    const { logTestFile, mochaOpts, filesForTesting, computedFailures } = test;
+    filesForTesting();
+    logTestFile(false);
+    mochaOpts.run((_fails) => computedFailures(_fails));
   }
 })();

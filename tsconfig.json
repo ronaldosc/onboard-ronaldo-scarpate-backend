@@ -10,7 +10,7 @@
     "paths": {
       "@api": ["api/index"],
       "@core": ["core/index"],
-      "@db/*": ["db/*"],
+      "@db": ["db/index"],
       "@domain": ["domain/index"],
       "@domain/*": ["domain/*"],
       "@entities": ["db/entities/index"],

@@ -1,14 +1,11 @@
 import { CryptoService, birthValidator, passValidator } from '@core';
-import { UserDataSource } from '@db/source';
+import { UserDataSource } from '@db';
 import { CreateUserInputModel, CreateUserResponseModel } from '@domain/model';
 import { Service } from 'typedi';
 
 @Service()
 export class CreateUserUseCase {
-  constructor(
-    private readonly repository: UserDataSource,
-    private readonly cryptoService: CryptoService
-  ) { }
+  constructor(protected readonly repository: UserDataSource, protected readonly cryptoService: CryptoService) {}
 
   async exec(input: CreateUserInputModel): Promise<CreateUserResponseModel> {
     const { name, email, birthdate, password } = input;
