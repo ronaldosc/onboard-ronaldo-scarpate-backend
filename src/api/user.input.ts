@@ -1,8 +1,6 @@
-import { CreateUserInputModel } from '@domain/model';
+import { CreateUserInputModel } from '@domain';
 import { Field, InputType } from 'type-graphql';
-import { Service } from 'typedi';
 
-@Service()
 @InputType()
 export class CreateUserInput implements CreateUserInputModel {
   @Field()

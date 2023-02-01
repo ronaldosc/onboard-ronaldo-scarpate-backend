@@ -7,13 +7,23 @@ export const passValidator = (password: string): unknown => {
 };
 
 export const birthValidator = (birthdate: string | Date): boolean => {
-  const isBefore = new Date(birthdate).getTime();
-  const today = Date.now();
-  if (isBefore > today) {
-    throw new Error(`A data de nascimento '${birthdate}' é posterior a data atual.`);
+  const dates = {
+    isBefore: new Date(birthdate).getTime(),
+    today: Date.now(),
+    get resultInYears(): number {
+      return differenceInYears(this.today, this.isBefore);
+    },
+  };
+
+  if (!dates.isBefore) {
+    throw new Error(`A data de nascimento '${birthdate}' não é válida.`);
   }
-  if (differenceInYears(today, isBefore) >= 15) {
+
+  if (dates.resultInYears >= 15) {
     return true;
+  } else if (dates.resultInYears < 0) {
+    throw new Error(`A data informada '${birthdate}' é posterior a data atual.`);
+  } else {
+    return false;
   }
-  return false;
 };
