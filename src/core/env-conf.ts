@@ -1,5 +1,6 @@
+import { config, DotenvConfigOutput } from 'dotenv';
 import { env } from 'node:process';
-import Container, { Token } from 'typedi';
+import { Container, Token } from 'typedi';
 
 export const HOST = new Token<string>('HOST');
 export const PORT = new Token<number>('PORT');
@@ -7,10 +8,13 @@ export const DATABASE_URL = new Token<string>('DATABASE_URL');
 export const CRYPTO_KEY_LENGTH = new Token<number>('CRYPTO_KEY_LENGTH');
 export const CRYPTO_SECRET = new Token<string>('CRYPTO_SECRET');
 
-export namespace EnvConf {
-  export function config(test?: boolean) {
-    require('dotenv').config({ path: test ? '.env.test' : '.env' });
-
+export class EnvConf {
+  static cfg(test?: boolean) {
+    config({ path: test ? '.env.tes' : '.env' });
+    if (config().error) {
+      const { error }: DotenvConfigOutput = config();
+      throw error?.message;
+    }
     Container.set(HOST, env.HOST);
     Container.set(PORT, +env.PORT!);
     Container.set(DATABASE_URL, env.DATABASE_URL);

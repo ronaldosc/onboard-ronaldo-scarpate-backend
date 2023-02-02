@@ -5,22 +5,22 @@ import { CRYPTO_KEY_LENGTH, CRYPTO_SECRET } from './env-conf';
 @Service()
 export class CryptoService {
   constructor(
-    @Inject(CRYPTO_SECRET) private readonly defaultSalt: string,
-    @Inject(CRYPTO_KEY_LENGTH) private readonly keyLength: number
+    @Inject(CRYPTO_SECRET) private readonly defaultSalt?: string,
+    @Inject(CRYPTO_KEY_LENGTH) private readonly keyLength?: number,
   ) {}
 
   generateSalt(): string {
-    return crypto.randomBytes(+this.keyLength).toString('hex');
+    return crypto.randomBytes(this.keyLength ?? crypto.randomInt(1, 17)).toString('hex');
   }
 
-  generateSaltedPass(value: string, salt: string): string {
-    if (!salt.length) {
-      throw new Error('"Crypto Salt" é inválido');
+  generateSaltedPass(passValue: string, salt: string): string {
+    if (!passValue.length) {
+      throw new Error(`'Crypto Salt' inválido`);
     }
-    return this.generateHash(value + salt);
+    return this.generateHash(passValue + salt);
   }
 
-  private generateHash(value: string): string {
-    return crypto.scryptSync(value, this.defaultSalt ?? 'defaultSalt', 64).toString('base64');
+  private generateHash(passPlusSalt: string): string {
+    return crypto.scryptSync(passPlusSalt, this.defaultSalt ?? 'defaultSalt', 64).toString('base64');
   }
 }

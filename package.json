@@ -7,8 +7,8 @@
     "build": "npx ts-node ./src/index.ts --emit -r tsconfig-paths/register",
     "check:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./",
     "dev": "nodemon --exec ts-node src/index.ts -e ts,graphql",
-    "start": "npx tsc && npx ts-node ./dist/index.js",
-    "test": "npx mocha -r ts-node/register -r tsconfig-paths/register --colors --delay src/index.ts --exit"
+    "start": "npx tsc && npx ts-node ./dist/index.js -i ./dist/test",
+    "test": "npx mocha --no-config -r ts-node/register -r tsconfig-paths/register --colors --delay src/index.ts --exit"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "@types/chai": "4.3.4",
     "@types/mocha": "10.0.1",
     "@types/node": "18.11.18",
+    "@types/pg": "8.6.6",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
     "chai": "4.3.7",
@@ -43,12 +44,13 @@
     "eslint-plugin-prettier": "4.2.1",
     "mocha": "10.2.0",
     "prettier": "2.8.3",
+    "reflect-metadata": "0.1.13",
     "supertest": "6.3.3",
     "ts-node": "10.9.1",
     "tsconfig-paths": "4.1.2",
     "typescript": "4.9.4"
   },
   "peerDependencies": {
-    "class-validator": "0.13.2"
+    "class-validator": "0.14.0"
   }
 }

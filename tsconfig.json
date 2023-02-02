@@ -3,20 +3,20 @@
     "target": "ES2021",
     "module": "CommonJS",
     "lib": ["ES2021"],
-    "rootDir": "./",
+    "rootDir": "./src",
     "moduleResolution": "Node",
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
       "@api": ["api/index"],
       "@core": ["core/index"],
-      "@db/*": ["db/*"],
+      "@db": ["db/index"],
       "@domain": ["domain/index"],
-      "@domain/*":["domain/*"],
-      "@entities": ["db/entities/index"]
+      "@domain/*": ["domain/*"],
+      "@entities": ["db/entities/index"],
+      "@test":["test"]
     },
-    "types": ["reflect-metadata", "node", "mocha", "chai"],
-    // "allowJs": true,
+    "types": ["node", "pg", "chai", "mocha"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
@@ -24,7 +24,9 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "ts-node": { "require": ["tsconfig-paths/register"] },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["dist", "node_modules"]
 }
