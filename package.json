@@ -8,7 +8,7 @@
     "check:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./",
     "dev": "nodemon --exec ts-node src/index.ts -e ts,graphql",
     "start": "npx tsc && npx ts-node ./dist/index.js -i ./dist/test",
-    "test": "npx mocha --no-config -r ts-node/register -r tsconfig-paths/register --colors --delay src/index.ts --exit"
+    "test": "npx mocha --no-config -r='ts-node/register,tsconfig-paths/register'  --fail-zero --delay src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -35,9 +35,9 @@
     "@types/chai": "4.3.4",
     "@types/mocha": "10.0.1",
     "@types/node": "18.11.18",
-    "@types/pg": "8.6.6",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
+    "axios": "1.3.1",
     "chai": "4.3.7",
     "eslint": "8.32.0",
     "eslint-config-prettier": "8.6.0",

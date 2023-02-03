@@ -1,8 +1,7 @@
 import { DATABASE_URL } from '@core';
-import { User } from '@entities';
-import { isTest } from 'test';
 import { Container } from 'typedi';
 import { DataSource } from 'typeorm';
+import { User } from './entities';
 
 const dataORMOpts: DataSource = new DataSource({
   type: 'postgres',
@@ -12,17 +11,15 @@ const dataORMOpts: DataSource = new DataSource({
 
 export class Database {
   static readonly connection: DataSource = dataORMOpts;
-  protected db: DataSource;
-  private url: string;
-
-  constructor() {
-    this.db = Database.connection;
-    this.url = Container.get(DATABASE_URL);
-  }
-
-  async init(): Promise<void> {
+  private db: DataSource = Database.connection;
+  private url: string = Container.get(DATABASE_URL);
+  /**
+   * @param [number] timeout connection in milliseconds
+   * (default: 2000)
+   */
+  async init(isTesting?: boolean): Promise<void> {
     this.db.setOptions({
-      connectionTimeout: isTest ? 2000 : undefined,
+      connectionTimeout: isTesting ? 1500 : undefined,
       applicationName: 'NodeJS',
       url: this.url,
     });

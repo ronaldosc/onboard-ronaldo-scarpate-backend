@@ -1,8 +1,8 @@
-import { UserModel } from '@domain';
+import { CreateUserResponseModel } from '@domain';
 import { Field, Int, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export class UserType implements UserModel {
+export class UserType implements CreateUserResponseModel{
   @Field(() => Int)
   id!: number;
 
@@ -14,7 +14,4 @@ export class UserType implements UserModel {
 
   @Field()
   birthdate!: string;
-
-  @Field()
-  password!: string;
 }

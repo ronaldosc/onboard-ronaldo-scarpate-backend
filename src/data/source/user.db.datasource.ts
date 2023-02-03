@@ -1,8 +1,8 @@
+import { Database } from '@db';
 import { CreateUserInputModel } from '@domain/model';
 import { User } from '@entities';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
-import { Database } from '../dbconfig';
 
 @Service()
 export class UserDataSource {

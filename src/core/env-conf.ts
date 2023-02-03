@@ -10,7 +10,7 @@ export const CRYPTO_SECRET = new Token<string>('CRYPTO_SECRET');
 
 export class EnvConf {
   static cfg(test?: boolean) {
-    config({ path: test ? '.env.tes' : '.env' });
+    config({ path: test ? '.env.test' : '.env' });
     if (config().error) {
       const { error }: DotenvConfigOutput = config();
       throw error?.message;
