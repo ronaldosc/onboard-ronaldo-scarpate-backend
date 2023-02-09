@@ -8,7 +8,7 @@ export const isTest = argv[1].includes('mocha');
 const mochaOpts = new Mocha({
   asyncOnly: true,
   color: true,
-  retries: 1,
+  // retries: 1,
   slow: 20,
   timeout: 1000,
 })
@@ -37,7 +37,7 @@ const filesForTesting = (): void =>
 
 const tableName: string = 'user';
 
-const cleanClose = (): Promise<void> => {
+const cleanCloseDb = (): Promise<void> => {
   Database.connection.dropDatabase().catch((err: TypeError) => console.error('Error ==> ', err.message));
   return Database.connection.destroy();
 };
@@ -48,7 +48,7 @@ const computedFailures = (fails: number): never => {
     `All tests completed with${fails ? ` ${fails} failure${fails < 2 ? '' : 's'}` : 'out fail'}.`,
     '\x1b[0m  ⎗',
   );
-  cleanClose();
+  cleanCloseDb();
   process.exitCode = fails ? 1 : 0;
   exit();
 };

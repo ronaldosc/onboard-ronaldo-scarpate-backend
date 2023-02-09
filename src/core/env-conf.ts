@@ -22,3 +22,4 @@ export class EnvConf {
     Container.set(CRYPTO_SECRET, env.CRYPTO_SECRET);
   }
 }
+//TODO testar se o env.HOST o HOST é o da const desse aquivo ou do .env
