@@ -8,7 +8,7 @@
     "check:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./",
     "dev": "nodemon --exec ts-node src/index.ts -e ts,graphql",
     "start": "npx tsc && npx ts-node ./dist/index.js -i ./dist/test",
-    "test": "npx mocha --no-config -r='ts-node/register,tsconfig-paths/register'  --fail-zero --delay src/index.ts"
+    "test": "npx mocha --no-config -r='ts-node/register,tsconfig-paths/register' --fail-zero --delay src/index.ts"
   },
   "repository": {
     "type": "git",
