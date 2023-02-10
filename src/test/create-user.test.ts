@@ -20,7 +20,6 @@ describe('Axios => Integration Testing - Create User use-case', () => {
   };
   type AxiosResp = Pick<AxiosResponse, 'data' | 'status' | 'statusText'> & { data: { errors?: any[] } };
 
-  let response: AxiosResp;
   let graphResponse: GraphRespModel & { errors: any[] };
   let input = (user?: Partial<CreateUserInputModel>) => {
     return `#graphql
@@ -87,5 +86,18 @@ describe('Axios => Integration Testing - Create User use-case', () => {
     } = await requisition(input({ password: 'password' }));
     expect(graphResponse).to.be.undefined;
     expect(errors[0].message).to.be.eq(`A senha informada não é válida.`);
+  });
+
+  it('should return a default query message', async () => {
+    const {
+      status,
+      data: { data: graphResponse },
+    } = await requisition(`#graphql
+        query {
+          test
+        }`);
+
+    expect(status).to.be.eq(200);
+    expect(graphResponse).to.has.property('test', "I'm working.");
   });
 });

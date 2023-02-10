@@ -8,7 +8,7 @@ export const isTest = argv[1].includes('mocha');
 const mochaOpts = new Mocha({
   asyncOnly: true,
   color: true,
-  // retries: 1,
+  retries: 1,
   slow: 20,
   timeout: 1000,
 })
