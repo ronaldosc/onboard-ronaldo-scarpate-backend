@@ -1,4 +1,4 @@
-import { CryptoService, birthValidator, passValidator } from '@core';
+import { CryptoService, birthValidator, mailValidator, passValidator } from '@core';
 import { CreateUserInputModel, CreateUserResponseModel } from '@domain/model';
 import { UserDataSource } from '@source';
 import { Service } from 'typedi';
@@ -11,20 +11,18 @@ export class CreateUserUseCase {
     const { name, email, birthdate, password } = input;
     const user = await this.repository.findOneByEmail(email);
 
+    mailValidator(email)
+
     if (user) {
       throw new Error(`Usuário com e-mail '${email}' já possui cadastro.`);
     }
 
-    if (!birthValidator(birthdate)) {
-      throw new Error(`Para se cadastrar, necessita ter idade mínima de 15 (quinze) anos.`);
-    }
+    birthValidator(birthdate)
 
-    if (!passValidator(password)) {
-      throw new Error(`A senha informada não é válida.`);
-    }
+    passValidator(password)
 
     const salt: string = this.cryptoService.generateSalt();
-    const hashedPass: string = this.cryptoService.generateSaltedPass(password, salt);
+    const hashedPass: string = this.cryptoService.generateHashedPass(password, salt);
 
     return this.repository.saveUser({
       name,

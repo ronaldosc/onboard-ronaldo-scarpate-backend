@@ -61,14 +61,25 @@ describe('Axios => Integration Testing - Create User use-case', () => {
       .that.is.a('number');
   });
 
-  it('should throw an error if the email is already in use', async () => {
+  it('should throw an error if the email is not provided', async () => {
     await requisition(input());
     const {
       data: { graphResponse, errors },
-    } = await requisition(input());
+    } = await requisition(input({ email: '' }));
 
     expect(graphResponse).to.be.undefined;
-    expect(errors[0].message).to.be.eq(`Usuário com e-mail 'jo@example.com' já possui cadastro.`);
+    expect(errors[0].message).to.be.eq(`Campo e-mail obrigatório.`);
+  });
+
+  it('should throw an error if the email is already in use', async () => {
+    const userEmail = { email: 'john@teste.com' };
+    await requisition(input(userEmail));
+    const {
+      data: { graphResponse, errors },
+    } = await requisition(input(userEmail));
+
+    expect(graphResponse).to.be.undefined;
+    expect(errors[0].message).to.be.eq(`Usuário com e-mail '${userEmail.email}' já possui cadastro.`);
   });
 
   it('should throw an error if birthdate is less than 15 years ago', async () => {
