@@ -2,7 +2,7 @@ import { UserModel } from '@domain';
 import { Field, Int, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export class UserType implements UserModel {
+export class CreateUserType implements UserModel {
   @Field(() => Int)
   id!: number;
 
@@ -14,7 +14,4 @@ export class UserType implements UserModel {
 
   @Field()
   birthdate!: string;
-
-  @Field()
-  password!: string;
 }

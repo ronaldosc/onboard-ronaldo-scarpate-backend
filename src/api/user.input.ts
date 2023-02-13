@@ -1,8 +1,8 @@
-import { CreateUserInputModel } from '@domain';
+import { UserModel } from '@domain';
 import { Field, InputType } from 'type-graphql';
 
 @InputType()
-export class CreateUserInput implements CreateUserInputModel {
+export class CreateUserInput implements UserModel {
   @Field()
   name!: string;
 

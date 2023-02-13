@@ -1,12 +1,15 @@
 import { differenceInYears } from 'date-fns';
 
-export const passValidator = (password: string): unknown => {
-  const pattern: RegExp = /(?=\w*?\d)(?=\d*?\S)\w{6,}/gm;
+export const passValidator = (password: string): void => {
+  const pattern: RegExp = /(?=\w*?\d)(?=\d*?\S)\w{6,}/g;
 
-  return pattern.test(password);
+  if (!pattern.test(password)) {
+    throw new Error(`A senha informada não é válida.`);
+  }
+  return;
 };
 
-export const birthValidator = (birthdate: string | Date): boolean => {
+export const birthValidator = (birthdate: string | Date): void | never => {
   const dates = {
     isBefore: new Date(birthdate).getTime(),
     today: Date.now(),
@@ -20,10 +23,24 @@ export const birthValidator = (birthdate: string | Date): boolean => {
   }
 
   if (dates.resultInYears >= 15) {
-    return true;
+    return;
   } else if (dates.resultInYears < 0) {
     throw new Error(`A data informada '${birthdate}' é posterior a data atual.`);
   } else {
-    return false;
+    throw new Error(`Para se cadastrar, necessita ter idade mínima de 15 (quinze) anos.`);
   }
+};
+
+export const mailValidator = (email: string): void => {
+  const pattern: RegExp = /^(\w{1,}@\w{1,}\.(\w{3})(\.\w{2}){0,1})$/g;
+
+  if (!email) {
+    throw new Error(`Campo e-mail obrigatório.`);
+  }
+
+  if (!pattern.test(email)) {
+    throw new Error(`O e-mail informado não é válido.`);
+  }
+
+  return;
 };

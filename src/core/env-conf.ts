@@ -10,7 +10,7 @@ export const CRYPTO_SECRET = new Token<string>('CRYPTO_SECRET');
 
 export class EnvConf {
   static cfg(test?: boolean) {
-    config({ path: test ? '.env.tes' : '.env' });
+    config({ path: test ? '.env.test' : '.env' });
     if (config().error) {
       const { error }: DotenvConfigOutput = config();
       throw error?.message;
@@ -22,3 +22,4 @@ export class EnvConf {
     Container.set(CRYPTO_SECRET, env.CRYPTO_SECRET);
   }
 }
+//TODO testar se o env.HOST o HOST é o da const desse aquivo ou do .env
