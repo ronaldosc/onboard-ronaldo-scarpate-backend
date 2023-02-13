@@ -1,9 +1,19 @@
+import { HOST, PORT } from '@core';
 import { Database } from '@db';
 import Mocha from 'mocha';
-import { log } from 'node:console';
+import { error, log } from 'node:console';
 import { argv, cwd, exit } from 'node:process';
+import Container from 'typedi';
 
 export const isTest = argv[1].includes('mocha');
+
+export class GraphQLEndPoint {
+  static getURL(): string {
+    const host: string = Container.get(HOST);
+    const port: number = Container.get(PORT);
+    return `http://${host}:${port}/`;
+  }
+}
 
 const mochaOpts = new Mocha({
   asyncOnly: true,
@@ -35,15 +45,18 @@ const logTestFile = (toFile: boolean = true): void => {
 const filesForTesting = (): void =>
   log('\n', `Arquivos a analisar [${Array(mochaOpts.files).length}]: `, mochaOpts.files);
 
-const tableName: string = 'user';
+const {
+  connection,
+  connection: { dropDatabase, destroy },
+} = Database;
 
 const cleanCloseDb = (): Promise<void> => {
-  Database.connection.dropDatabase().catch((err: TypeError) => console.error('Error ==> ', err.message));
-  return Database.connection.destroy();
+  dropDatabase().catch((err: TypeError) => error('Error ==> ', err.message));
+  return destroy();
 };
 
 const computedFailures = (fails: number): never => {
-  console.log(
+  log(
     '⎘  \x1b[4m',
     `All tests completed with${fails ? ` ${fails} failure${fails < 2 ? '' : 's'}` : 'out fail'}.`,
     '\x1b[0m  ⎗',
@@ -53,10 +66,10 @@ const computedFailures = (fails: number): never => {
   exit();
 };
 
-export const clearRepository = async (): Promise<void> =>
-  await Database.connection
+export const clearRepository = async (tableName: string = 'user'): Promise<void> =>
+  await connection
     .getRepository(tableName)
     .clear()
-    .catch((err: TypeError) => console.error({ [err.name]: err.message }));
+    .catch((err: TypeError) => error({ [err.name]: err.message }));
 
 export default { logTestFile, mochaOpts, filesForTesting, computedFailures };

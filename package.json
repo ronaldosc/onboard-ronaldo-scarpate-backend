@@ -4,10 +4,10 @@
   "description": "- GraphQL, Apollo Server, TS, NodeJS and TypeORM implementations with database\r - Possible CRUD operations with some technologies:",
   "main": "index.js",
   "scripts": {
-    "build": "npx ts-node ./src/index.ts --emit -r tsconfig-paths/register",
-    "check:circular": "npx madge --circular --ts-config ./tsconfig.json --extensions ts ./",
-    "dev": "nodemon --exec ts-node src/index.ts -e ts,graphql",
-    "start": "npx tsc && npx ts-node ./dist/index.js -i ./dist/test",
+    "build": "npx ts-node src/index.ts --emit -r tsconfig-paths/register",
+    "check:circular": "npx madge --circular --ts-config tsconfig.json --extensions ts ./",
+    "dev": "nodemon --exec ts-node src/index.ts -e ts",
+    "start": "npx tsc && npx ts-node dist/index.js -i dist/test",
     "test": "npx mocha --no-config -r='ts-node/register,tsconfig-paths/register' --fail-zero --delay src/index.ts"
   },
   "repository": {

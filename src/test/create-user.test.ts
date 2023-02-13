@@ -1,34 +1,32 @@
-import { HOST, PORT } from '@core';
 import { CreateUserInputModel, CreateUserResponseModel } from '@domain';
 import axios, { AxiosResponse } from 'axios';
 import { expect } from 'chai';
 import { afterEach, describe } from 'mocha';
-import { Container } from 'typedi';
-import { clearRepository } from './index';
+import { GraphQLEndPoint, clearRepository } from './index';
 
-describe('Axios => Integration Testing - Create User use-case', () => {
-  class GraphQLEndPoint {
-    static getURL(): string {
-      const host: string = Container.get(HOST);
-      const port: number = Container.get(PORT);
-      return `http://${host}:${port}/`;
-    }
-  }
+type GraphRespModel = {
+  createUser: CreateUserResponseModel;
+};
+type AxiosResp = Pick<AxiosResponse, 'data' | 'status' | 'statusText'> & { data: { errors?: any[] } };
 
-  type GraphRespModel = {
-    createUser: CreateUserResponseModel;
-  };
-  type AxiosResp = Pick<AxiosResponse, 'data' | 'status' | 'statusText'> & { data: { errors?: any[] } };
+async function requisition(query: string): Promise<AxiosResp> {
+  return axios.post(GraphQLEndPoint.getURL(), { query });
+}
 
-  let graphResponse: GraphRespModel & { errors: any[] };
-  let input = (user?: Partial<CreateUserInputModel>) => {
+describe('Axios => Integration Testing - Create User Use-Case', () => {
+  let graphResponse: GraphRespModel;
+  const input = (user?: Partial<CreateUserInputModel>) => {
     return `#graphql
     mutation {
-      createUser (input: { 
-        name: "John",
-        email: "${user?.email ?? 'jo@example.com'}",
-        birthdate: "${user?.birthdate ?? '2000-01-01'}",
-        password: "${user?.password ?? 'p@ssw0rd'}"
+      createUser(input: { 
+        name:
+            "John",
+        email:
+            "${user?.email ?? 'jo@example.com'}",
+        birthdate:
+            "${user?.birthdate ?? '2000-01-01'}",
+        password:
+            "${user?.password ?? 'p@ssw0rd'}"
       }) {
         id
         name
@@ -37,12 +35,6 @@ describe('Axios => Integration Testing - Create User use-case', () => {
       }
     }`;
   };
-
-  async function requisition(queryInput: string): Promise<AxiosResp> {
-    return axios.post(GraphQLEndPoint.getURL(), { query: queryInput });
-  }
-
-  afterEach(() => clearRepository());
 
   it('should create a new valid user', async () => {
     const {
@@ -68,6 +60,7 @@ describe('Axios => Integration Testing - Create User use-case', () => {
     } = await requisition(input({ email: '' }));
 
     expect(graphResponse).to.be.undefined;
+    expect(errors).to.have.lengthOf(1);
     expect(errors[0].message).to.be.eq(`Campo e-mail obrigatório.`);
   });
 
@@ -79,6 +72,7 @@ describe('Axios => Integration Testing - Create User use-case', () => {
     } = await requisition(input(userEmail));
 
     expect(graphResponse).to.be.undefined;
+    expect(errors).to.have.lengthOf(1);
     expect(errors[0].message).to.be.eq(`Usuário com e-mail '${userEmail.email}' já possui cadastro.`);
   });
 
@@ -88,6 +82,7 @@ describe('Axios => Integration Testing - Create User use-case', () => {
     } = await requisition(input({ birthdate: '2015' }));
 
     expect(graphResponse).to.be.undefined;
+    expect(errors).to.have.lengthOf(1);
     expect(errors[0].message).to.be.eq(`Para se cadastrar, necessita ter idade mínima de 15 (quinze) anos.`);
   });
 
@@ -96,19 +91,26 @@ describe('Axios => Integration Testing - Create User use-case', () => {
       data: { graphResponse, errors },
     } = await requisition(input({ password: 'password' }));
     expect(graphResponse).to.be.undefined;
+    expect(errors).to.have.lengthOf(1);
     expect(errors[0].message).to.be.eq(`A senha informada não é válida.`);
   });
 
+  afterEach(() => clearRepository());
+});
+
+describe('Axios => Integration Testing - Default Query String', () => {
   it('should return a default query message', async () => {
     const {
       status,
-      data: { data: graphResponse },
-    } = await requisition(`#graphql
-        query {
-          test
-        }`);
+      data: { data: queryTesting },
+    } = await requisition(
+      `#graphql
+          query {
+            test
+          }`,
+    );
 
     expect(status).to.be.eq(200);
-    expect(graphResponse).to.has.property('test', "I'm working.");
+    expect(queryTesting).to.has.property('test', "I'm working.");
   });
 });

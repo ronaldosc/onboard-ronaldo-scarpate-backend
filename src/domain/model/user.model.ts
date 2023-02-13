@@ -1,11 +1,13 @@
 export interface UserModel {
-  id: number;
+  id?: number;
   name: string;
   email: string;
   birthdate: string;
-  password: string;
+  password?: string;
 }
 
-export type CreateUserInputModel = Omit<UserModel, 'id'>;
+type CreateUserProtoModel = Omit<UserModel, 'id' | 'password'>;
 
-export type CreateUserResponseModel = Omit<UserModel, 'password'>;
+export type CreateUserInputModel = CreateUserProtoModel & Required<Pick<UserModel, 'password'>>;
+
+export type CreateUserResponseModel = CreateUserProtoModel & Required<Pick<UserModel, 'id'>>;
