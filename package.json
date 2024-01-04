@@ -22,14 +22,14 @@
   },
   "homepage": "https://github.com/indigotech/onboard-ronaldo-scarpate-backend#readme",
   "dependencies": {
-    "@apollo/server": "4.3.1",
+    "@apollo/server": "4.9.3",
     "date-fns": "2.29.3",
     "dotenv": "16.0.3",
-    "graphql": "16.6.0",
+    "graphql": "16.8.1",
     "pg": "8.8.0",
     "type-graphql": "2.0.0-beta.1",
     "typedi": "0.10.0",
-    "typeorm": "0.3.11"
+    "typeorm": "0.3.18"
   },
   "devDependencies": {
     "@types/chai": "4.3.4",
